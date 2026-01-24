@@ -14,11 +14,19 @@
     <p class="subtitle">Your age, beautifully displayed</p>
 
     <div class="input-box">
+      <label>Name (Optional)</label>
+      <input type="text" id="name" placeholder="Enter your name" />
+    </div>
+
+    <div class="input-box">
       <label>Date & Time of Birth</label>
       <input type="datetime-local" id="dob" />
     </div>
 
-    <button onclick="start()">Calculate</button>
+    <button class="primary-btn" onclick="start()">Calculate</button>
+
+    <!-- NAME DISPLAY -->
+    <div class="name-display hidden" id="nameDisplay"></div>
 
     <!-- AGE TILES -->
     <div class="tiles hidden" id="tiles">
@@ -26,19 +34,23 @@
         <span id="years">0</span>
         <small>Years</small>
       </div>
-      <div class="tile">
+
+      <div class="tile months">
         <span id="months">0</span>
         <small>Months</small>
       </div>
-      <div class="tile">
+
+      <div class="tile days">
         <span id="days">0</span>
         <small>Days</small>
       </div>
-      <div class="tile">
+
+      <div class="tile hours">
         <span id="hours">0</span>
         <small>Hours</small>
       </div>
-      <div class="tile">
+
+      <div class="tile minutes">
         <span id="minutes">0</span>
         <small>Minutes</small>
       </div>
@@ -46,12 +58,12 @@
 
     <!-- NEXT BIRTHDAY -->
     <div class="birthday hidden" id="birthday">
-      🎉 <strong>Next Birthday In</strong>
-      <div id="nextBirthday"></div>
+      <div class="birthday-title">🎉 Next Birthday In</div>
+      <div class="birthday-time" id="nextBirthday"></div>
     </div>
   </div>
 
-  <button class="export hidden" id="exportBtn" onclick="exportImage()">
+  <button class="export-btn hidden" id="exportBtn" onclick="exportImage()">
     📸 Export Age Card
   </button>
 </div>
