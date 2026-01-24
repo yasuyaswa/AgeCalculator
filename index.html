@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🎂 Age Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="card" id="capture">
+    <h1>🎂 Age Calculator</h1>
+    <p class="subtitle">Your age, beautifully displayed</p>
+
+    <div class="input-box">
+      <label>Date & Time of Birth</label>
+      <input type="datetime-local" id="dob" />
+    </div>
+
+    <button onclick="start()">Calculate</button>
+
+    <!-- AGE TILES -->
+    <div class="tiles hidden" id="tiles">
+      <div class="tile highlight">
+        <span id="years">0</span>
+        <small>Years</small>
+      </div>
+      <div class="tile">
+        <span id="months">0</span>
+        <small>Months</small>
+      </div>
+      <div class="tile">
+        <span id="days">0</span>
+        <small>Days</small>
+      </div>
+      <div class="tile">
+        <span id="hours">0</span>
+        <small>Hours</small>
+      </div>
+      <div class="tile">
+        <span id="minutes">0</span>
+        <small>Minutes</small>
+      </div>
+    </div>
+
+    <!-- NEXT BIRTHDAY -->
+    <div class="birthday hidden" id="birthday">
+      🎉 <strong>Next Birthday In</strong>
+      <div id="nextBirthday"></div>
+    </div>
+  </div>
+
+  <button class="export hidden" id="exportBtn" onclick="exportImage()">
+    📸 Export Age Card
+  </button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
