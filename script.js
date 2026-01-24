@@ -2,9 +2,25 @@ let timer;
 
 function start() {
   const dobValue = document.getElementById("dob").value;
-  if (!dobValue) return alert("Please select date of birth");
+  if (!dobValue) {
+    alert("Please select date of birth");
+    return;
+  }
 
   const birth = new Date(dobValue);
+  const nameInput = document.getElementById("name");
+  const name = nameInput.value.trim();
+
+  const nameDisplay = document.getElementById("nameDisplay");
+
+  // ✅ Handle optional name correctly
+  if (name) {
+    nameDisplay.innerText = `Hello, ${name} 👋`;
+    nameDisplay.classList.remove("hidden");
+  } else {
+    nameDisplay.innerText = "";
+    nameDisplay.classList.add("hidden");
+  }
 
   document.getElementById("tiles").classList.remove("hidden");
   document.getElementById("birthday").classList.remove("hidden");
@@ -18,31 +34,43 @@ function start() {
 function update(birth) {
   const now = new Date();
 
-  let y = now.getFullYear() - birth.getFullYear();
-  let m = now.getMonth() - birth.getMonth();
-  let d = now.getDate() - birth.getDate();
-  let h = now.getHours() - birth.getHours();
-  let min = now.getMinutes() - birth.getMinutes();
+  let years = now.getFullYear() - birth.getFullYear();
+  let months = now.getMonth() - birth.getMonth();
+  let days = now.getDate() - birth.getDate();
+  let hours = now.getHours() - birth.getHours();
+  let minutes = now.getMinutes() - birth.getMinutes();
 
-  if (min < 0) { min += 60; h--; }
-  if (h < 0) { h += 24; d--; }
-  if (d < 0) {
-    d += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
-    m--;
+  if (minutes < 0) {
+    minutes += 60;
+    hours--;
   }
-  if (m < 0) { m += 12; y--; }
 
-  document.getElementById("years").innerText = y;
-  document.getElementById("months").innerText = m;
-  document.getElementById("days").innerText = d;
-  document.getElementById("hours").innerText = h;
-  document.getElementById("minutes").innerText = min;
+  if (hours < 0) {
+    hours += 24;
+    days--;
+  }
+
+  if (days < 0) {
+    days += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+    months--;
+  }
+
+  if (months < 0) {
+    months += 12;
+    years--;
+  }
+
+  document.getElementById("years").innerText = years;
+  document.getElementById("months").innerText = months;
+  document.getElementById("days").innerText = days;
+  document.getElementById("hours").innerText = hours;
+  document.getElementById("minutes").innerText = minutes;
 
   updateNextBirthday(birth, now);
 }
 
 function updateNextBirthday(birth, now) {
-  let next = new Date(
+  let nextBirthday = new Date(
     now.getFullYear(),
     birth.getMonth(),
     birth.getDate(),
@@ -50,19 +78,24 @@ function updateNextBirthday(birth, now) {
     birth.getMinutes()
   );
 
-  if (next < now) next.setFullYear(next.getFullYear() + 1);
+  if (nextBirthday < now) {
+    nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
+  }
 
-  const diff = next - now;
-  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const m = Math.floor((diff / (1000 * 60)) % 60);
+  const diff = nextBirthday - now;
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
 
   document.getElementById("nextBirthday").innerText =
-    `${d} days • ${h} hours • ${m} minutes`;
+    `${days} days • ${hours} hours • ${minutes} minutes`;
 }
 
 function exportImage() {
-  html2canvas(document.getElementById("capture"), { scale: 2 }).then(canvas => {
+  const capture = document.getElementById("capture");
+
+  html2canvas(capture, { scale: 2 }).then(canvas => {
     const link = document.createElement("a");
     link.download = "age-card.png";
     link.href = canvas.toDataURL("image/png");
